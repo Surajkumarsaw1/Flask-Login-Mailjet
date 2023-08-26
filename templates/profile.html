@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+    <h1>Edit Your Profile</h1>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <p>
+            <label>Username:</label>
+            {{ form.username }}
+            {% for error in form.username.errors %}
+                <div class="error">{{ error }}</div>
+            {% endfor %}
+        </p>
+        <p>
+            <label>Email:</label>
+            {{ form.email }}
+            {% for error in form.email.errors %}
+                <div class="error">{{ error }}</div>
+            {% endfor %}
+        </p>
+        <p>
+            <label>Phone Number:</label>
+            {{ form.phone_number }}
+            {% for error in form.phone_number.errors %}
+                <div class="error">{{ error }}</div>
+            {% endfor %}
+        </p>
+        <p>
+            <label>Time Zone:</label>
+            {{ form.time_zone }}
+            {% for error in form.time_zone.errors %}
+                <div class="error">{{ error }}</div>
+            {% endfor %}
+        </p>
+        <p>
+            <input type="submit" value="Save Changes">
+        </p>
+    </form>
+{% endblock %}

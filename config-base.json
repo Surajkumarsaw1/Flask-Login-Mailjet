@@ -1,0 +1,15 @@
+{
+    "mailjet": {
+        "api_key": "",
+        "api_secret": "",
+        "sender_email": "",
+        "sender_name": ""
+    },
+    "appsetting": {
+        "secret_key": "",
+        "domain": ""
+    },
+    "admin_emails": [
+        ""
+    ]
+}

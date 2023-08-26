@@ -1,0 +1,104 @@
+<!-- signup.html -->
+{% extends 'base.html' %}
+
+{% block title %}Signup - My App{% endblock %}
+
+{% block content %}
+    <h1>Signup</h1>
+    <!-- Your signup form here -->
+    <main id="signup-form">
+        <form method="post" action="{{ url_for('signup') }}">
+            {{ form.csrf_token }}
+            <div>
+                {{ form.username.label }} {{ form.username(size=30, required=True) }}<br>
+            </div>
+            <div>
+                {{ form.email.label }} {{ form.email(size=30, required=True, type="email") }}<br>
+            </div>
+            <div>
+                <!-- Password field with show password icon -->
+                <div style="position: relative;">
+                    {{ form.password.label }}
+                    <input type="password" :type="showPassword ? 'text' : 'password'" size="30" required v-model="password" @input="checkPasswordRequirements">
+                    <i class="far" :class="showPassword ? 'fa-eye-slash' : 'fa-eye'" @click="showPassword = !showPassword" style="position: absolute; top: 50%; right: 5px; transform: translateY(-50%); cursor: pointer;"></i>
+                </div>
+                <br>
+            </div>
+            <div>
+                <!-- Confirm password field with show password icon -->
+                <div style="position: relative;">
+                    {{ form.confirm_password.label }}
+                    <input type="password" :type="showConfirmPassword ? 'text' : 'password'" size="30" required v-model="confirmPassword" @input="checkPasswordRequirements">
+                    <i class="far" :class="showConfirmPassword ? 'fa-eye-slash' : 'fa-eye'" @click="showConfirmPassword = !showConfirmPassword" style="position: absolute; top: 50%; right: 5px; transform: translateY(-50%); cursor: pointer;"></i>
+                </div>
+                <br>
+            </div>
+            <div>
+                <input type="submit" :disabled="!areRequirementsFulfilled || !isPasswordMatch" value="Signup">
+            </div>
+        </form>
+
+        <!-- Password Requirements -->
+        <div>
+            <p>[[ passwordRequirements ]]</p>
+            <ul>
+                <li v-bind:class="{ 'checked': isLowerCase }">At least one lowercase letter</li>
+                <li v-bind:class="{ 'checked': isUpperCase }">At least one uppercase letter</li>
+                <li v-bind:class="{ 'checked': isDigit }">At least one digit</li>
+                <li v-bind:class="{ 'checked': isSpecialChar }">At least one special character</li>
+                <li v-bind:class="{ 'checked': isLengthValid }">At least 8 characters long</li>
+            </ul>
+        </div>
+
+        <!-- Show a message if passwords don't match -->
+        <div v-if="!isPasswordMatch && areRequirementsFulfilled" style="color: red;">
+            Password and Confirm Password do not match.
+        </div>
+    </main>
+
+    <!-- Vue.js interactivity -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script>
+        new Vue({
+            el: '#signup-form',
+            delimiters: ['[[', ']]'], // Add the delimiters option
+            data: {
+                passwordRequirements: "Password must contain at least one lowercase letter, one uppercase letter, one digit, one special character, and be at least 8 characters long.",
+                password: '',
+                confirmPassword: '',
+                isLowerCase: false,
+                isUpperCase: false,
+                isDigit: false,
+                isSpecialChar: false,
+                isLengthValid: false,
+                isPasswordMatch: false,
+                showPassword: false, // Add the showPassword variable
+                showConfirmPassword: false // Add the showConfirmPassword variable
+            },
+            computed: {
+                areRequirementsFulfilled: function () {
+                    return this.isLowerCase && this.isUpperCase && this.isDigit && this.isSpecialChar && this.isLengthValid;
+                }
+            },
+            methods: {
+                checkPasswordRequirements: function () {
+                    this.isPasswordMatch = this.password === this.confirmPassword;
+                    const password = this.password;
+                    this.isLowerCase = /[a-z]/.test(password);
+                    this.isUpperCase = /[A-Z]/.test(password);
+                    this.isDigit = /\d/.test(password);
+                    this.isSpecialChar = /[@$!%*?&]/.test(password);
+                    this.isLengthValid = password.length >= 8;
+                }
+            }
+        });
+    </script>
+
+    <style>
+        /* CSS for the checked list items */
+        .checked {
+            list-style-type: none;
+            margin-left: 1.5em;
+        }
+    </style>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Update User Details</h1>
+  <form method="POST">
+    {{ form.csrf_token }}
+    <div class="form-group">
+      {{ form.username.label(class="form-label") }}
+      {{ form.username(class="form-control") }}
+    </div>
+    <div class="form-group">
+      {{ form.email.label(class="form-label") }}
+      {{ form.email(class="form-control") }}
+    </div>
+    <div class="form-group">
+      {{ form.phone_number.label(class="form-label") }}
+      {{ form.phone_number(class="form-control") }}
+    </div>
+    <div class="mb-3">
+      {{ form.time_zone.label(class="form-label") }}
+      {{ form.time_zone(class="form-control") }}
+      <!-- <select class="form-select" name="{{ form.time_zone.name }}">
+          <option value="">None</option>
+          {% for tz in time_zones %}
+              {% if tz == form.time_zone.data %}
+                  <option value="{{ tz }}" selected>{{ tz }}</option>
+              {% else %}
+                  <option value="{{ tz }}">{{ tz }}</option>
+              {% endif %}
+          {% endfor %}
+      </select> -->
+      {% if form.time_zone.errors %}
+          <div class="invalid-feedback">
+              {% for error in form.time_zone.errors %}
+                  <span>{{ error }}</span>
+              {% endfor %}
+          </div>
+      {% endif %}
+    </div>
+    <div class="form-group form-check">
+      {{ form.view_access.label(class="form-check-label") }}
+      {{ form.view_access(class="form-check-input") }}
+    </div>
+    <div class="form-group form-check">
+      {{ form.edit_access.label(class="form-check-label") }}
+      {{ form.edit_access(class="form-check-input") }}
+    </div>
+    <div class="form-group form-check">
+      {{ form.delete_restore_access.label(class="form-check-label") }}
+      {{ form.delete_restore_access(class="form-check-input") }}
+    </div>
+    <div class="form-group form-check">
+      {{ form.deleted.label(class="form-check-label") }}
+      {{ form.deleted(class="form-check-input") }}
+    </div>
+    <div class="form-group">
+      {{ form.role_id.label(class="form-label") }}
+      {{ form.role_id(class="form-select") }}
+    </div>
+    <!-- Add more rows for other user details as needed -->
+    <button type="submit" class="btn btn-primary">Update User</button>
+    <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">Cancel</a>
+  </form>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>User Details</h1>
+  <table class="table table-bordered">
+    <tbody>
+      <tr>
+        <th>Username</th>
+        <td>{{ user.username }}</td>
+      </tr>
+      <tr>
+        <th>Email</th>
+        <td>{{ user.email }}</td>
+      </tr>
+      <tr>
+        <th>Email Verified</th>
+        <td>{{ "Yes" if user.email_verified else "No" }}</td>
+      </tr>
+      <tr>
+        <th>Phone Number</th>
+        <td>{{ user.phone_number or 'N/A' }}</td>
+      </tr>
+      <tr>
+        <th>Time Zone</th>
+        <td>{{ user.time_zone or 'N/A' }}</td>
+      </tr>
+      <tr>
+        <th>View Access</th>
+        <td>{{ "Yes" if user.view_access else "No" }}</td>
+      </tr>
+      <tr>
+        <th>Edit Access</th>
+        <td>{{ "Yes" if user.edit_access else "No" }}</td>
+      </tr>
+      <tr>
+        <th>Delete/Restore Access</th>
+        <td>{{ "Yes" if user.delete_restore_access else "No" }}</td>
+      </tr>
+      <tr>
+        <th>Deleted</th>
+        <td>{{ "Yes" if user.deleted else "No" }}</td>
+      </tr>
+      <tr>
+        <th>Last Active</th>
+        <td>{{ user.last_active }}</td>
+      </tr>
+      <tr>
+        <th>Role</th>
+        <td>{{ user.role.name }}</td>
+      </tr>
+      <!-- Add more rows for other user details as needed -->
+    </tbody>
+  </table>
+  <a href="{{ url_for('admin_dashboard') }}" class="btn btn-primary">Back to Dashboard</a>
+{% endblock %}

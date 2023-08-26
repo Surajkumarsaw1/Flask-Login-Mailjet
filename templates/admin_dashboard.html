@@ -1,0 +1,62 @@
+<!-- admin_dashboard.html -->
+
+{% extends 'base.html' %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+    <h1>Admin Dashboard</h1>
+    {% if users_pagination.items %}
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Last Active</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users_pagination.items %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.last_active }}</td>
+                        <td>
+                            <a href="{{ url_for('view_user', user_id=user.id) }}">View</a>
+                            <a href="{{ url_for('update_user', user_id=user.id) }}">Update</a>
+                            <a href="{{ url_for('delete_user', user_id=user.id) }}">Delete</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Pagination links -->
+        <div class="pagination">
+            {% if users_pagination.has_prev %}
+                <a href="{{ url_for('admin_dashboard', page=users_pagination.prev_num) }}">Previous</a>
+            {% endif %}
+
+            {% for num in users_pagination.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=2) %}
+                {% if num %}
+                    {% if users_pagination.page == num %}
+                        <strong>{{ num }}</strong>
+                    {% else %}
+                        <a href="{{ url_for('admin_dashboard', page=num) }}">{{ num }}</a>
+                    {% endif %}
+                {% else %}
+                    ...
+                {% endif %}
+            {% endfor %}
+
+            {% if users_pagination.has_next %}
+                <a href="{{ url_for('admin_dashboard', page=users_pagination.next_num) }}">Next</a>
+            {% endif %}
+        </div>
+    {% else %}
+        <p>No users found.</p>
+    {% endif %}
+{% endblock %}

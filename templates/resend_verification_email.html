@@ -1,0 +1,15 @@
+<!-- resend_verification_email.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Resend Verification Email</h1>
+  <form method="post">
+    {{ form.hidden_tag() }}
+    {{ form.email.label }} {{ form.email(size=30) }}
+    {% for error in form.email.errors %}
+      <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+    <br>
+    {{ form.submit }}
+  </form>
+{% endblock %}

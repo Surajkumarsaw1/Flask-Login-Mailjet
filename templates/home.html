@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - My App{% endblock %}
+
+{% block content %}
+    {% if current_user.is_authenticated %}
+        <h1>Welcome, {{ current_user.username }}!</h1>
+        <!-- Your personalized home page content here -->
+        <p>You are logged in as {{ current_user.username }}.</p>
+        <p>Additional personalized content for logged-in users can go here.</p>
+        <p><a href="{{ url_for('logout') }}">Logout</a></p>
+    {% else %}
+        <h1>Welcome to My App!</h1>
+        <!-- Your general home page content for non-logged-in users can go here -->
+        <p>You are not logged in. Please <a href="{{ url_for('login') }}">login</a> or <a href="{{ url_for('signup') }}">signup</a> to access personalized features.</p>
+    {% endif %}
+{% endblock %}
